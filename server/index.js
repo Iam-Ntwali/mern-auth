@@ -6,14 +6,13 @@ import authRoutes from './routes/auth.route.js';
 dotenv.config();  // Load environment variables from a .env file into process.env
 
 const app = express();
+const PORT = process.env.PORT || 6000;
 
-app.get('/', (req, res) => {
-  res.send('Hello Nodemond! 🙂');
-});
+app.use(express.json()); // Parse incoming requets (JSON bodies)
 
 app.use('/api/auth', authRoutes);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   connectDB();
-  console.log('Server is running on http://localhost:3000');
+  console.log(`Server is running on http://localhost: ${PORT}`);
 });
