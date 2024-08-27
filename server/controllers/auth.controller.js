@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { User } from "../models/user.model.js";
 import { generateToken } from "../utils/jwt.js";
+import { send } from 'express/lib/response.js';
 
 /* UTILS */
 // Generate a Verification Code
@@ -36,7 +37,9 @@ export const signup = async (req, res) => {
     await user.save();
 
     // JWT
-    generateToken(res, user._id);
+    generateTokenToSetCookie(res, user._id);
+
+    sendVerificationEmail(user, verificationToken);
 
     res.status(201).json({
       success: true,
