@@ -39,7 +39,7 @@ export const signup = async (req, res) => {
     // JWT
     generateTokenToSetCookie(res, user._id);
 
-    sendVerificationEmail(user, verificationToken);
+    sendVerificationEmail(email, verificationToken);
 
     res.status(201).json({
       success: true,
