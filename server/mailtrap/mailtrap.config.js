@@ -1,27 +1,26 @@
-import { MailtrapTransport } from "mailtrap";
+import { MailtrapClient } from "mailtrap";
 import dotenv from "dotenv";
 
-const TOKEN = "";
-const ENDPOINT = "https://send.api.mailtrap.io/";
+dotenv.config();
 
-const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });
+export const mailTrapClient = new MailtrapClient({ endpoint: process.env.MAILTRAP_ENDPOINT, token: process.env.MAILTRAP_TOKEN });
 
-const sender = {
+export const sender = {
   email: "mailtrap@ibtc-elearning.com",
-  name: "Mailtrap Test",
+  name: "IBTC Film School",
 };
-const recipients = [
-  {
-    email: "donatmuhaye@gmail.com",
-  }
-];
+// const recipients = [
+//   {
+//     email: "donatmuhaye@gmail.com",
+//   }
+// ];
 
-client
-  .send({
-    from: sender,
-    to: recipients,
-    subject: "You are awesome!",
-    text: "Congrats for sending test email with Mailtrap!",
-    category: "Integration Test",
-  })
-  .then(console.log, console.error);
+// client
+//   .send({
+//     from: sender,
+//     to: recipients,
+//     subject: "You are awesome!",
+//     text: "Congrats for sending test email with Mailtrap!",
+//     category: "Integration Test",
+//   })
+//   .then(console.log, console.error);
