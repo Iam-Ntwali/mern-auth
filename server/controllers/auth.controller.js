@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { User } from "../models/user.model.js";
-import { generateToken } from "../utils/jwt.js";
-import { send } from 'express/lib/response.js';
+import { generateTokenToSetCookie } from "../utils/jwt.js";
+import { sendVerificationEmail } from '../mailtrap/email.js';
 
 /* UTILS */
 // Generate a Verification Code
