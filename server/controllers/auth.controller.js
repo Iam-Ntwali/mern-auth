@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { User } from "../models/user.model.js";
 import { generateTokenToSetCookie } from "../utils/jwt.js";
-import { sendVerificationEmail } from '../mailtrap/email.js';
+import { sendVerificationEmail, sendWelcomeEmail } from '../mailtrap/email.js';
 
 /* UTILS */
 // Generate a Verification Code
@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       name,
       verificationToken,
-      verificationTokenExpiresAt: Date.now() + 180000, // 3 minutes
+      verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
     });
 
     await user.save();
@@ -77,8 +77,17 @@ export const verifyEmail = async (req, res) => {
 
     await sendWelcomeEmail(user.email, user.name);
 
-  } catch (err) {
+    res.status(200).json({
+      success: true,
+      message: 'Account verified successfully',
+      user: {
+        ...user._doc,
+        password: undefined,
+      }
+    });
 
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
   }
 }
 
