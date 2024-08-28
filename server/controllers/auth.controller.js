@@ -87,7 +87,8 @@ export const verifyEmail = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    console.log(err);
+    res.status(500).json({ success: false, message: err.message });
   }
 }
 
