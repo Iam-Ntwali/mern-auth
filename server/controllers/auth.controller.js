@@ -46,7 +46,7 @@ export const signup = async (req, res) => {
       message: 'User created successfully',
       user: {
         ...user._doc,
-        password: null,
+        password: undefined,
       }
     });
 
