@@ -10,6 +10,7 @@ const generateVerificationCode = () => {
 };
 
 /* CONTROLLERS */
+// Signup
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
 
@@ -39,7 +40,7 @@ export const signup = async (req, res) => {
     // JWT
     generateTokenToSetCookie(res, user._id);
 
-    sendVerificationEmail(email, verificationToken);
+    await sendVerificationEmail(email, verificationToken);
 
     res.status(201).json({
       success: true,
@@ -55,8 +56,33 @@ export const signup = async (req, res) => {
   }
 };
 
+// Verify Email
+export const verifyEmail = async (req, res) => {
+  const { verificationCode } = req.body;
+  try {
+    const user = await User.findOne({
+      verificationToken: verificationCode,
+      verificationTokenExpiresAt: { $gt: Date.now() },
+    });
 
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired verification code' });
+    }
 
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationTokenExpiresAt = undefined;
+
+    await user.save();
+
+    await sendWelcomeEmail(user.email, user.name);
+
+  } catch (err) {
+
+  }
+}
+
+// Login
 export const login = async (req, res) => {
   res.send('Login route');
 };
