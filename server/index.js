@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './db/connectDB.js';
 import authRoutes from './routes/auth.route.js';
+import cors from 'cors';
 
 dotenv.config();  // Load environment variables from a .env file into process.env
 
