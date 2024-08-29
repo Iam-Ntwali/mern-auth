@@ -1,3 +1,5 @@
+import FloatingShape from "./components/FloatingShape";
+
 function App() {
   return (
     <div
